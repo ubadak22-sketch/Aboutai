@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Concepts Explained Simply</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #f6f5f2;
+            --bg-secondary: #efede8;
+            --bg-card: #ffffff;
+            --text-primary: #2a2a2a;
+            --text-secondary: #6b6b6b;
+            --accent: #6b8fa3;
+            --accent-light: #e8eef5;
+            --border-soft: #e5e2dc;
+            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --border-radius: 8px;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-soft);
+            padding: 24px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--text-primary);
+            cursor: pointer;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-btn {
+            padding: 8px 0;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+        }
+
+        .nav-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-btn.active {
+            color: var(--accent);
+        }
+
+        .nav-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+
+        /* ===== PAGE TRANSITIONS ===== */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== HOME PAGE ===== */
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .hero h1 {
+            font-size: 44px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 18px;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--accent);
+            margin-bottom: 24px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .hero p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .hero-btn {
+            background-color: var(--accent);
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+            text-transform: uppercase;
+        }
+
+        .hero-btn:hover {
+            background-color: #5a7a92;
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-1px);
+        }
+
+        /* ===== CONCEPTS PAGE ===== */
+        .concepts-header {
+            margin-bottom: 40px;
+        }
+
+        .concepts-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .concepts-header p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .concept-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--border-radius);
+            padding: 28px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--accent-light);
+            background-color: #fafaf8;
+        }
+
+        .concept-card h3 {
+            font-size: 16px;
+            margin-bottom: 14px;
+            color: var(--text-primary);
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .concept-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+            line-height: 1.7;
+            min-height: 56px;
+        }
+
+        .concept-card-arrow {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover .concept-card-arrow {
+            gap: 10px;
+        }
+
+        /* ===== MODAL OVERLAY ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.25);
+            z-index: 200;
+            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(2px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 48px;
+            max-width: 650px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+            animation: slideUp 0.4s ease;
+            border: 1px solid var(--border-soft);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 24px;
+            font-weight: 300;
+            color: var(--text-secondary);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            margin: -8px -8px 0 0;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+            transform: rotate(90deg);
+        }
+
+        .detail-title {
+            font-size: 28px;
+            color: var(--text-primary);
+            margin-bottom: 32px;
+            clear: both;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .detail-definition {
+            background-color: var(--accent-light);
+            border-left: 3px solid var(--accent);
+            padding: 20px 22px;
+            border-radius: 6px;
+            margin-bottom: 32px;
+        }
+
+        .detail-definition h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 10px;
+            letter-spacing: 0.8px;
+            font-weight: 700;
+        }
+
+        .detail-definition p {
+            font-size: 15px;
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .detail-section {
+            margin-bottom: 32px;
+        }
+
+        .detail-section h4 {
+            font-size: 11px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            font-weight: 700;
+        }
+
+        .detail-section p {
+            font-size: 15px;
+            color: var(--text-primary);
+            line-height: 1.8;
+            margin-bottom: 0;
+        }
+
+        .detail-example {
+            background-color: var(--bg-secondary);
+            padding: 20px 22px;
+            border-radius: 6px;
+            border-left: 3px solid var(--border-soft);
+            margin-top: 8px;
+        }
+
+        .detail-example p {
+            font-size: 15px;
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .detail-short {
+            background-color: var(--bg-secondary);
+            padding: 20px 22px;
+            border-radius: 6px;
+            border: 1px solid var(--border-soft);
+            margin-top: 8px;
+        }
+
+        .detail-short p {
+            font-size: 15px;
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .detail-short strong {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-soft);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            main {
+                padding: 40px 20px;
+            }
+
+            .hero {
+                padding: 20px 0;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+                margin-bottom: 14px;
+            }
+
+            .hero p {
+                font-size: 15px;
+                margin-bottom: 28px;
+            }
+
+            .modal-content {
+                padding: 32px;
+                margin: 20px;
+                max-height: 90vh;
+                border-radius: 12px;
+            }
+
+            .detail-title {
+                font-size: 24px;
+                margin-bottom: 24px;
+            }
+
+            .concepts-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .nav-buttons {
+                gap: 16px;
+            }
+
+            .nav-btn {
+                font-size: 12px;
+                padding: 6px 0;
+            }
+
+            .header-content {
+                padding: 0 20px;
+            }
+
+            .concepts-header h2 {
+                font-size: 28px;
+            }
+
+            header {
+                padding: 18px 0;
+            }
+
+            .hero-btn {
+                padding: 11px 24px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            main {
+                padding: 30px 16px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .concepts-header h2 {
+                font-size: 24px;
+            }
+
+            .modal-content {
+                padding: 24px;
+            }
+
+            .detail-title {
+                font-size: 22px;
+            }
+
+            .concept-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-content">
+            <a class="logo" id="logoBtn">AI Concepts</a>
+            <div class="nav-buttons">
+                <button class="nav-btn active" data-page="home">Home</button>
+                <button class="nav-btn" data-page="concepts">Learn</button>
+                <button class="nav-btn" data-page="concepts">About</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- HOME PAGE -->
+        <div class="page active" id="home">
+            <div class="hero">
+                <h1>AI Concepts Explained Simply</h1>
+                <p class="hero-subtitle">Understanding artificial intelligence without the complexity</p>
+                <p>No technical jargon. No hype. Just clear, honest explanations of how AI works and why it matters. Perfect for students and anyone curious about technology.</p>
+                <button class="hero-btn" id="startBtn">Start Learning</button>
+            </div>
+        </div>
+
+        <!-- CONCEPTS PAGE -->
+        <div class="page" id="concepts">
+            <div class="concepts-header">
+                <h2>Core AI Concepts</h2>
+                <p>Click on any concept to learn more. Each explanation uses simple language and real examples.</p>
+            </div>
+            <div class="concepts-grid" id="conceptsGrid"></div>
+        </div>
+    </main>
+
+    <!-- MODAL FOR DETAIL VIEW -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content" id="modalContent">
+            <button class="modal-close" id="modalClose">×</button>
+            <div id="detailContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // ===== CONCEPTS DATA =====
+        const concepts = [
+            {
+                id: 'what-is-ai',
+                title: 'What is AI?',
+                definition: 'Artificial Intelligence (AI) means computer programs that can learn, think, and make decisions like humans do.',
+                example: 'When you ask Siri or Google Assistant a question and it understands what you want, that\'s AI working. The computer learned how to understand human language by studying millions of examples.',
+                shortSummary: 'AI is software that can learn from information and make smart decisions without being told exactly what to do every single time.'
+            },
+            {
+                id: 'machine-learning',
+                title: 'Machine Learning',
+                definition: 'Machine Learning is a way to teach computers to learn from examples instead of following pre-written step-by-step instructions.',
+                example: 'Instagram\'s "For You" page learns what photos you like by watching which pictures you stop to look at. The more you use it, the smarter it gets at showing you stuff you\'ll enjoy.',
+                shortSummary: 'Instead of programming every single rule, you show the computer many examples. It figures out the patterns by itself.'
+            },
+            {
+                id: 'deep-learning',
+                title: 'Deep Learning',
+                definition: 'Deep Learning is a special type of machine learning that uses many layers of connected code pieces, working like a very complex brain.',
+                example: 'When your phone recognizes your face to unlock, or when YouTube recommends videos you might like, deep learning is working behind the scenes to understand complicated patterns in images and data.',
+                shortSummary: 'It\'s machine learning that uses many connected layers to understand very complicated things, like pictures, videos, and language.'
+            },
+            {
+                id: 'neural-network',
+                title: 'Neural Network',
+                definition: 'A neural network is a computer system designed to work like a human brain, with many connected pieces that send information to each other.',
+                example: 'Your brain has billions of brain cells (neurons) connected together. A neural network copies this idea in code. Each "neuron" is a tiny piece of code that helps make decisions based on what it learns.',
+                shortSummary: 'It\'s a copy of how your brain works, but made from computer code. Many small pieces work together to solve problems.'
+            },
+            {
+                id: 'token',
+                title: 'Token',
+                definition: 'A token is a small piece of text or data that a computer breaks language into so it can understand and process it.',
+                example: 'If you write "Hello world", the computer might break it into tokens like: "Hello", " ", "world". Each token is a tiny unit that the AI can work with separately, like words in a sentence.',
+                shortSummary: 'Think of it like breaking a sentence into word-sized pieces so the computer can understand each piece separately and work with them.'
+            },
+            {
+                id: 'api',
+                title: 'API (Application Interface)',
+                definition: 'An API is like a menu in a restaurant that lets different software programs talk to each other and share information.',
+                example: 'When you use Google Maps inside a different app, or when an app uses weather information, that\'s an API working. The app is requesting information from another program, just like ordering food from a menu.',
+                shortSummary: 'An API lets different programs ask each other for information and work together, without needing to know how everything works inside.'
+            },
+            {
+                id: 'model',
+                title: 'Model',
+                definition: 'A model is a trained computer program that has learned patterns from data and can now make predictions or decisions about new information.',
+                example: 'When you chat with ChatGPT or use face recognition on your phone, you\'re using a model. The model was trained on tons of examples, so it learned how to give good answers or recognize faces correctly.',
+                shortSummary: 'A model is like a smart student that studied hard and now can answer new questions based on what it learned before.'
+            },
+            {
+                id: 'training-inference',
+                title: 'Training vs Inference',
+                definition: 'Training is when a computer learns from examples. Inference is when it uses what it learned to make new predictions or give answers.',
+                example: 'Training is like studying for a test. Inference is taking the test. First, the AI studies millions of examples. Then, when you ask it a question, it uses that knowledge to give you an answer.',
+                shortSummary: 'Training = the learning phase. Inference = using what you learned to answer new questions or solve new problems.'
+            }
+        ];
+
+        // ===== STATE =====
+        let currentPage = 'home';
+        let currentConcept = null;
+
+        // ===== PAGE NAVIGATION =====
+        const pageButtons = document.querySelectorAll('.nav-btn');
+        const pages = document.querySelectorAll('.page');
+
+        pageButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const page = e.target.dataset.page;
+                showPage(page);
+            });
+        });
+
+        function showPage(page) {
+            currentPage = page;
+            
+            // Update active button
+            pageButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-page="${page}"]`).classList.add('active');
+
+            // Update active page
+            pages.forEach(p => p.classList.remove('active'));
+            document.getElementById(page).classList.add('active');
+
+            // Render concepts if concepts page
+            if (page === 'concepts') {
+                renderConceptsGrid();
+            }
+
+            // Save to localStorage
+            localStorage.setItem('lastPage', page);
+        }
+
+        // ===== START BUTTON & LOGO =====
+        document.getElementById('startBtn').addEventListener('click', () => {
+            showPage('concepts');
+        });
+
+        document.getElementById('logoBtn').addEventListener('click', () => {
+            showPage('home');
+        });
+
+        // ===== RENDER CONCEPTS GRID =====
+        function renderConceptsGrid() {
+            const grid = document.getElementById('conceptsGrid');
+            grid.innerHTML = '';
+
+            concepts.forEach(concept => {
+                const card = document.createElement('div');
+                card.className = 'concept-card';
+                card.innerHTML = `
+                    <h3>${concept.title}</h3>
+                    <p>${concept.definition}</p>
+                    <span class="concept-card-arrow">Learn more →</span>
+                `;
+                card.addEventListener('click', () => openDetail(concept));
+                grid.appendChild(card);
+            });
+        }
+
+        // ===== OPEN DETAIL VIEW =====
+        function openDetail(concept) {
+            currentConcept = concept;
+            
+            const detailHTML = `
+                <h2 class="detail-title">${concept.title}</h2>
+
+                <div class="detail-definition">
+                    <h4>Definition</h4>
+                    <p>${concept.definition}</p>
+                </div>
+
+                <div class="detail-section">
+                    <h4>Real Example</h4>
+                    <div class="detail-example">
+                        <p>${concept.example}</p>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h4>Key Takeaway</h4>
+                    <div class="detail-short">
+                        <p><strong>Remember:</strong> ${concept.shortSummary}</p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('detailContent').innerHTML = detailHTML;
+            document.getElementById('modalOverlay').classList.add('active');
+
+            // Save last opened concept
+            localStorage.setItem('lastConcept', concept.id);
+        }
+
+        // ===== CLOSE MODAL =====
+        document.getElementById('modalClose').addEventListener('click', closeModal);
+        document.getElementById('modalOverlay').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('modalOverlay')) {
+                closeModal();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('modalOverlay').classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+
+        // ===== LOAD SAVED STATE =====
+        function loadState() {
+            const lastPage = localStorage.getItem('lastPage') || 'home';
+            const lastConceptId = localStorage.getItem('lastConcept');
+
+            showPage(lastPage);
+
+            if (lastConceptId && lastPage === 'concepts') {
+                const concept = concepts.find(c => c.id === lastConceptId);
+                if (concept) {
+                    setTimeout(() => openDetail(concept), 300);
+                }
+            }
+        }
+
+        // ===== INIT =====
+        loadState();
+    </script>
+</body>
+</html>
